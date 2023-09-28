@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.mrprogre.utils.Icons.*;
 
@@ -16,6 +17,8 @@ public class Gui extends JFrame {
     private static int numbersCount;
     private static int counter;
     private int currentNumber;
+    private final String find = " Find ";
+    private final AtomicBoolean isHard = new AtomicBoolean(false);
 
     public Gui() {
         counter = 0;
@@ -37,6 +40,8 @@ public class Gui extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setUndecorated(true);
+
+        setBounds(600, 160, 800, 710);
         setResizable(false);
 
         JMenuBar menuBar = new JMenuBar();
@@ -52,6 +57,20 @@ public class Gui extends JFrame {
 
         setJMenuBar(menuBar);
 
+        // TOP
+        JLabel label = new JLabel(find + currentNumber);
+        label.setPreferredSize(new Dimension(685, 10));
+        getContentPane().add(label);
+
+        // Hard on/off
+        JCheckBox isHardCheckbox = new JCheckBox("Hard mode");
+        isHardCheckbox.setFocusable(false);
+        isHardCheckbox.addItemListener(e -> {
+            isHard.set(!isHard.get());
+            System.out.println(isHard.get());
+        });
+        getContentPane().add(isHardCheckbox);
+
         ArrayList<Integer> listOfNumbers = new ArrayList<>();
         for (int i = 1; i <= numbersCount; i++) {
             listOfNumbers.add(i);
@@ -62,24 +81,31 @@ public class Gui extends JFrame {
         for (Integer n : listOfNumbers) {
             JButton jButton = new JButton(String.valueOf(n));
             jButton.setFocusPainted(false);
-            jButton.setPreferredSize(new Dimension(60, 60)); // 20 * 20
+            jButton.setPreferredSize(new Dimension(60, 60));
 
             jButton.setName(String.valueOf(listOfNumbers.get(n - 1)));
             getContentPane().add(jButton);
 
             jButton.addActionListener(x -> {
                 if (currentNumber == Integer.parseInt(jButton.getText())) {
-                    jButton.setEnabled(false);
+                    if (isHard.get())
+                        jButton.setVisible(false);
+                    else
+                        jButton.setEnabled(false);
+
                     jButton.setText(" ");
                     counter++;
                     currentNumber++;
 
+                    label.setText(find + currentNumber);
                     if (counter == numbersCount) {
-                        String message = String.format("Completed in %.2f seconds. Start again?", (double) (System.currentTimeMillis() - startTime) / 1000);
+                        label.setText("");
+                        String message = String.format("Mission completed in %.2f seconds!",
+                                (double) (System.currentTimeMillis() - startTime) / 1000);
 
                         int result = JOptionPane.showConfirmDialog(this,
+                                "Start again?",
                                 message,
-                                "Mission completed",
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -88,8 +114,6 @@ public class Gui extends JFrame {
                 }
             });
         }
-
-        setBounds(600, 160, 800, 700);
 
         setVisible(true);
     }
