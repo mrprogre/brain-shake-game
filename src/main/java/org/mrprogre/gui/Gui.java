@@ -19,6 +19,8 @@ public class Gui extends JFrame {
     private static int numbersCount;
     private static int frameY;
     private static int frameHeight;
+    private static int frameWidth;
+    private static int labelWidth;
     private static int counter;
     private int currentNumber;
     private String find = "      Find ";
@@ -41,30 +43,38 @@ public class Gui extends JFrame {
         switch (guiSize) {
             case "baby":
                 find = "           ";
-                labelFont = new Font(fontName, Font.BOLD, 28);
-                buttonFont = new Font(fontName, Font.BOLD, 21);
+                labelFont = new Font(fontName, Font.BOLD, 32);
+                buttonFont = new Font(fontName, Font.BOLD, 28);
                 frameY = 400;
-                frameHeight = 160;
+                frameHeight = 270;
+                frameWidth = 600;
+                labelWidth = 474;
                 numbersCount = 12;
                 break;
             case "small":
                 frameY = 400;
+                frameWidth = 800;
+                labelWidth = 685;
                 frameHeight = 200;
                 numbersCount = 24;
                 break;
             case "middle":
                 frameY = 280;
+                frameWidth = 800;
+                labelWidth = 685;
                 frameHeight = 396;
                 numbersCount = 60;
                 break;
             case "large":
                 frameY = 190;
+                frameWidth = 800;
+                labelWidth = 685;
                 frameHeight = 722;
                 numbersCount = 120;
                 break;
         }
 
-        setBounds(320, frameY, 800, frameHeight);
+        setBounds(320, frameY, frameWidth, frameHeight);
         setResizable(false);
 
         JMenuBar menuBar = new JMenuBar();
@@ -86,16 +96,13 @@ public class Gui extends JFrame {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setFont(labelFont);
         label.setForeground(Color.RED);
-        label.setPreferredSize(new Dimension(685, 30));
+        label.setPreferredSize(new Dimension(labelWidth, 30));
         getContentPane().add(label);
 
         // Hard on/off
         JCheckBox isHardCheckbox = new JCheckBox("Hard mode");
         isHardCheckbox.setFocusable(false);
-        isHardCheckbox.addItemListener(e -> {
-            isHard.set(!isHard.get());
-            System.out.println(isHard.get());
-        });
+        isHardCheckbox.addItemListener(e -> isHard.set(!isHard.get()));
         getContentPane().add(isHardCheckbox);
 
         ArrayList<Integer> listOfNumbers = new ArrayList<>();
@@ -109,7 +116,8 @@ public class Gui extends JFrame {
             JButton jButton = new JButton(String.valueOf(n));
             jButton.setFont(buttonFont);
             jButton.setFocusPainted(false);
-            jButton.setPreferredSize(new Dimension(60, 60));
+            if (guiSize.equals("baby")) jButton.setPreferredSize(new Dimension(90, 90));
+            else jButton.setPreferredSize(new Dimension(60, 60));
 
             jButton.setName(String.valueOf(listOfNumbers.get(n - 1)));
             getContentPane().add(jButton);
@@ -119,11 +127,14 @@ public class Gui extends JFrame {
                     if (isHard.get()) {
                         jButton.setVisible(false);
                     } else {
-                        //jButton.setEnabled(false);
-                        jButton.setIcon(GIF);
+                        if (guiSize.equals("baby")) {
+                            jButton.setIcon(animatedGifs[currentNumber - 1]);
+                        } else {
+                            jButton.setIcon(GIF);
+                        }
                     }
 
-                    jButton.setText(" ");
+                    jButton.setText("");
                     counter++;
                     currentNumber++;
 
