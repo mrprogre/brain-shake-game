@@ -106,7 +106,7 @@ public class Gui extends JFrame {
                     label.setText(find + currentNumber);
                     if (counter == numbersCount) {
                         label.setText("");
-                        String message = String.format("Mission completed in %.2f seconds!",
+                        String message = String.format("Completed in %.2f seconds!",
                                 (double) (System.currentTimeMillis() - startTime) / 1000);
 
                         int result = JOptionPane.showConfirmDialog(this,
