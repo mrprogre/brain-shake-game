@@ -3,6 +3,8 @@ package org.example;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -11,6 +13,10 @@ public class Gui extends JFrame {
     private static final int NUMBERS_COUNT = 3; // 120
     public static final ImageIcon LOGO_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
             .createImage(Gui.class.getResource("/icons/logo.png")));
+    public static final ImageIcon EXIT_BUTTON_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
+            .createImage(Gui.class.getResource("/icons/exit.png")));
+    public static final ImageIcon WHEN_MOUSE_ON_EXIT_BUTTON_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
+            .createImage(Gui.class.getResource("/icons/exit2.png")));
     private static int counter;
     private int currentNumber;
 
@@ -28,6 +34,14 @@ public class Gui extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createFileMenu());
         menuBar.add(Box.createHorizontalGlue());
+
+        JButton exitBtn = new JButton(EXIT_BUTTON_ICON);
+        exitBtn.setFocusable(false);
+        exitBtn.setBorderPainted(false);
+        exitBtn.addActionListener(x -> System.exit(0));
+        menuBar.add(exitBtn);
+        animation(exitBtn, EXIT_BUTTON_ICON, WHEN_MOUSE_ON_EXIT_BUTTON_ICON);
+
         setJMenuBar(menuBar);
 
         ArrayList<Integer> listOfNumbers = new ArrayList<>();
@@ -58,8 +72,15 @@ public class Gui extends JFrame {
 
                     if (counter == NUMBERS_COUNT) {
                         long wastedTime = (System.currentTimeMillis() - startTime) / 1000;
-                        String message = String.format("Completed in %d seconds!", wastedTime);
-                        JOptionPane.showMessageDialog(this, message);
+                        String message = String.format("Completed in %d seconds", wastedTime);
+
+                        int result = JOptionPane.showConfirmDialog(this,
+                                "Start again?",
+                                message,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        if (result == JOptionPane.YES_OPTION) startGame();
                     }
                 }
             });
@@ -85,13 +106,31 @@ public class Gui extends JFrame {
         JMenuItem exit = new JMenuItem("Exit");
         KeyStroke ctrlQ = KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
         exit.setAccelerator(ctrlQ);
-        exit.addActionListener(x -> System.exit(0));
+        exit.addActionListener(x -> exit());
 
         file.add(restart);
         file.addSeparator();
         file.add(exit);
 
         return file;
+    }
+
+    private static void exit() {
+        System.exit(0);
+    }
+
+    public static void animation(JButton exitBtn, ImageIcon off, ImageIcon on) {
+        exitBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitBtn.setIcon(on);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitBtn.setIcon(off);
+            }
+        });
     }
 
 }
