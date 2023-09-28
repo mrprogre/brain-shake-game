@@ -125,7 +125,7 @@ public class Gui extends JFrame {
     }
 
     private void startGame() {
-        Common.createGui("middle");
+        Common.createGui(size);
     }
 
     private JMenu createFileMenu() {
