@@ -21,11 +21,15 @@ public class Gui extends JFrame {
         counter = 0;
         currentNumber = 1;
 
-        String s = JOptionPane.showInputDialog("Enter the number of blocks (max 120)");
-        if (s == null || s.equals("0") || Integer.parseInt(s) > 120) {
+        try {
+            String s = JOptionPane.showInputDialog("Enter the number of blocks (max 120)");
+            if (s == null || s.equals("0") || Integer.parseInt(s) > 120) {
+                numbersCount = 120;
+            } else {
+                numbersCount = Integer.parseInt(s);
+            }
+        } catch (Exception e) {
             numbersCount = 120;
-        } else {
-            numbersCount = Integer.parseInt(s);
         }
 
         setName("Tune your brain in the morning friend. From 1 to " + numbersCount); // не видно
