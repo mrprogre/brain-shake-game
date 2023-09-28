@@ -21,8 +21,8 @@ public class Gui extends JFrame {
         counter = 0;
         currentNumber = 1;
 
-        String s = JOptionPane.showInputDialog("Enter the number of blocks");
-        if (s == null || s.length() == 0) {
+        String s = JOptionPane.showInputDialog("Enter the number of blocks (max 120)");
+        if (s == null || s.equals("0") || Integer.parseInt(s) > 120) {
             numbersCount = 120;
         } else {
             numbersCount = Integer.parseInt(s);
