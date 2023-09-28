@@ -9,12 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 import static org.mrprogre.utils.Icons.*;
 
 public class Gui extends JFrame {
-    private static int NUMBERS_COUNT; // 120
+    private static int numbersCount;
     private static int counter;
     private int currentNumber;
 
@@ -22,14 +21,14 @@ public class Gui extends JFrame {
         counter = 0;
         currentNumber = 1;
 
-        String s = JOptionPane.showInputDialog("How many numbers to make in the game?");
+        String s = JOptionPane.showInputDialog("Enter the number of blocks");
         if (s == null || s.length() == 0) {
-            NUMBERS_COUNT = 120;
+            numbersCount = 120;
         } else {
-            NUMBERS_COUNT = Integer.parseInt(s);
+            numbersCount = Integer.parseInt(s);
         }
 
-        setName("Tune your brain in the morning friend. From 1 to " + NUMBERS_COUNT); // не видно
+        setName("Tune your brain in the morning friend. From 1 to " + numbersCount); // не видно
         setIconImage(LOGO_ICON.getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -50,7 +49,7 @@ public class Gui extends JFrame {
         setJMenuBar(menuBar);
 
         ArrayList<Integer> listOfNumbers = new ArrayList<>();
-        for (int i = 1; i <= NUMBERS_COUNT; i++) {
+        for (int i = 1; i <= numbersCount; i++) {
             listOfNumbers.add(i);
         }
         Collections.shuffle(listOfNumbers);
@@ -67,15 +66,11 @@ public class Gui extends JFrame {
             jButton.addActionListener(x -> {
                 if (currentNumber == Integer.parseInt(jButton.getText())) {
                     jButton.setEnabled(false);
-                    int randomR = new Random().nextInt(255);
-                    int randomG = new Random().nextInt(255);
-                    int randomB = new Random().nextInt(255);
-                    jButton.setBackground(new Color(randomR, randomG, randomB));
                     jButton.setText(" ");
                     counter++;
                     currentNumber++;
 
-                    if (counter == NUMBERS_COUNT) {
+                    if (counter == numbersCount) {
                         long wastedTime = (System.currentTimeMillis() - startTime) / 1000;
                         String message = String.format("Completed in %d seconds", wastedTime);
 
