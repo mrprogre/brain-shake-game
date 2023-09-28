@@ -190,7 +190,6 @@ public class Gui extends JFrame {
         KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
         restart.setAccelerator(ctrlR);
         restart.addActionListener(x -> {
-            // Remove the frame
             dispose();
             startGame();
         });
