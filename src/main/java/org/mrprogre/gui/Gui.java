@@ -63,7 +63,8 @@ public class Gui extends JFrame {
 
         // TOP
         JLabel label = new JLabel(find + currentNumber);
-        label.setPreferredSize(new Dimension(685, 10));
+        label.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        label.setPreferredSize(new Dimension(685, 13));
         getContentPane().add(label);
 
         // Hard on/off
@@ -84,6 +85,7 @@ public class Gui extends JFrame {
         long startTime = System.currentTimeMillis();
         for (Integer n : listOfNumbers) {
             JButton jButton = new JButton(String.valueOf(n));
+            jButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
             jButton.setFocusPainted(false);
             jButton.setPreferredSize(new Dimension(60, 60));
 
@@ -106,14 +108,15 @@ public class Gui extends JFrame {
                     label.setText(find + currentNumber);
                     if (counter == numbersCount) {
                         label.setText("");
-                        String message = String.format("Completed in %.2f seconds!",
+                        dispose();
+                        String message = String.format("Completed in %.2f seconds",
                                 (double) (System.currentTimeMillis() - startTime) / 1000);
 
                         int result = JOptionPane.showConfirmDialog(this,
                                 "Start again?",
                                 message,
                                 JOptionPane.YES_NO_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.INFORMATION_MESSAGE, GIF);
 
                         if (result == JOptionPane.YES_OPTION) startGame();
                     }
@@ -125,6 +128,7 @@ public class Gui extends JFrame {
     }
 
     private void startGame() {
+        dispose();
         Common.createGui(size);
     }
 
