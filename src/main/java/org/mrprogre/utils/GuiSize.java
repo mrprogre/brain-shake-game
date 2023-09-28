@@ -3,7 +3,9 @@ package org.mrprogre.utils;
 public enum GuiSize {
     LARGE("large"),
     MIDDLE("middle"),
-    SMALL("small");
+    SMALL("small"),
+    BABY("baby");
+
     private final String size;
 
     GuiSize(String size) {

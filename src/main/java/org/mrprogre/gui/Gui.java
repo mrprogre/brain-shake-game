@@ -16,11 +16,12 @@ import static org.mrprogre.utils.Icons.*;
 
 public class Gui extends JFrame {
     private static String size;
-    private static int numbersCount = 60;
-    private static int frameHeight = 384;
+    private static int numbersCount;
+    private static int frameY;
+    private static int frameHeight;
     private static int counter;
     private int currentNumber;
-    private final String find = " Find ";
+    private String find = "      Find ";
     private final AtomicBoolean isHard = new AtomicBoolean(false);
 
     public Gui(String guiSize) {
@@ -33,18 +34,37 @@ public class Gui extends JFrame {
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setUndecorated(true);
 
+        String fontName = "Segoe UI";
+        Font labelFont = new Font(fontName, Font.BOLD, 22);
+        Font buttonFont = new Font(fontName, Font.PLAIN, 15);
+
         switch (guiSize) {
+            case "baby":
+                find = "           ";
+                labelFont = new Font(fontName, Font.BOLD, 28);
+                buttonFont = new Font(fontName, Font.BOLD, 21);
+                frameY = 400;
+                frameHeight = 160;
+                numbersCount = 12;
+                break;
             case "small":
-                frameHeight = 188;
+                frameY = 400;
+                frameHeight = 200;
                 numbersCount = 24;
                 break;
+            case "middle":
+                frameY = 280;
+                frameHeight = 396;
+                numbersCount = 60;
+                break;
             case "large":
-                frameHeight = 710;
+                frameY = 190;
+                frameHeight = 722;
                 numbersCount = 120;
                 break;
         }
 
-        setBounds(600, 160, 800, frameHeight);
+        setBounds(320, frameY, 800, frameHeight);
         setResizable(false);
 
         JMenuBar menuBar = new JMenuBar();
@@ -63,8 +83,10 @@ public class Gui extends JFrame {
 
         // TOP
         JLabel label = new JLabel(find + currentNumber);
-        label.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        label.setPreferredSize(new Dimension(685, 13));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setFont(labelFont);
+        label.setForeground(Color.RED);
+        label.setPreferredSize(new Dimension(685, 30));
         getContentPane().add(label);
 
         // Hard on/off
@@ -85,7 +107,7 @@ public class Gui extends JFrame {
         long startTime = System.currentTimeMillis();
         for (Integer n : listOfNumbers) {
             JButton jButton = new JButton(String.valueOf(n));
-            jButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            jButton.setFont(buttonFont);
             jButton.setFocusPainted(false);
             jButton.setPreferredSize(new Dimension(60, 60));
 
@@ -132,6 +154,24 @@ public class Gui extends JFrame {
         Common.createGui(size);
     }
 
+    private static void exit() {
+        System.exit(0);
+    }
+
+    public static void animation(JButton exitBtn, ImageIcon off, ImageIcon on) {
+        exitBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitBtn.setIcon(on);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitBtn.setIcon(off);
+            }
+        });
+    }
+
     private JMenu createFileMenu() {
         JMenu file = new JMenu("File");
 
@@ -156,40 +196,31 @@ public class Gui extends JFrame {
         return file;
     }
 
-    private static void exit() {
-        System.exit(0);
-    }
-
-    public static void animation(JButton exitBtn, ImageIcon off, ImageIcon on) {
-        exitBtn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                exitBtn.setIcon(on);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                exitBtn.setIcon(off);
-            }
-        });
-    }
-
     private JMenu createSizeMenu() {
         JMenu viewMenu = new JMenu("Size");
+        String babySize = GuiSize.BABY.getSize();
         String minSize = GuiSize.SMALL.getSize();
         String midSize = GuiSize.MIDDLE.getSize();
         String maxSize = GuiSize.LARGE.getSize();
+
+        JCheckBoxMenuItem baby = new JCheckBoxMenuItem(babySize);
+        baby.addActionListener(e -> {
+            dispose();
+            Common.createGui("baby");
+        });
 
         JCheckBoxMenuItem small = new JCheckBoxMenuItem(minSize);
         small.addActionListener(e -> {
             dispose();
             Common.createGui("small");
         });
+
         JCheckBoxMenuItem middle = new JCheckBoxMenuItem(midSize);
         middle.addActionListener(e -> {
             dispose();
             Common.createGui("middle");
         });
+
         JCheckBoxMenuItem large = new JCheckBoxMenuItem(maxSize);
         large.addActionListener(e -> {
             dispose();
@@ -197,6 +228,7 @@ public class Gui extends JFrame {
         });
 
         ButtonGroup bg = new ButtonGroup();
+        bg.add(baby);
         bg.add(small);
         bg.add(middle);
         bg.add(large);
@@ -207,8 +239,11 @@ public class Gui extends JFrame {
             bg.setSelected(middle.getModel(), true);
         } else if (size.equals(maxSize)) {
             bg.setSelected(large.getModel(), true);
+        } else if (size.equals(babySize)) {
+            bg.setSelected(baby.getModel(), true);
         }
 
+        viewMenu.add(baby);
         viewMenu.add(small);
         viewMenu.add(middle);
         viewMenu.add(large);
