@@ -14,13 +14,20 @@ import java.util.Random;
 import static org.mrprogre.utils.Icons.*;
 
 public class Gui extends JFrame {
-    private static final int NUMBERS_COUNT = 3; // 120
+    private static int NUMBERS_COUNT; // 120
     private static int counter;
     private int currentNumber;
 
     public Gui() {
         counter = 0;
         currentNumber = 1;
+
+        String s = JOptionPane.showInputDialog("How many numbers to make in the game?");
+        if (s == null || s.length() == 0) {
+            NUMBERS_COUNT = 120;
+        } else {
+            NUMBERS_COUNT = Integer.parseInt(s);
+        }
 
         setName("Tune your brain in the morning friend. From 1 to " + NUMBERS_COUNT); // не видно
         setIconImage(LOGO_ICON.getImage());
@@ -99,7 +106,11 @@ public class Gui extends JFrame {
         JMenuItem restart = new JMenuItem("Restart");
         KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
         restart.setAccelerator(ctrlR);
-        restart.addActionListener(x -> startGame());
+        restart.addActionListener(x -> {
+            // Remove the frame
+            dispose();
+            startGame();
+        });
 
         JMenuItem exit = new JMenuItem("Exit");
         KeyStroke ctrlQ = KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
