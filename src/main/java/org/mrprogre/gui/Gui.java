@@ -1,4 +1,6 @@
-package org.example;
+package org.mrprogre.gui;
+
+import org.mrprogre.utils.Common;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,14 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import static org.mrprogre.utils.Icons.*;
+
 public class Gui extends JFrame {
     private static final int NUMBERS_COUNT = 3; // 120
-    public static final ImageIcon LOGO_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
-            .createImage(Gui.class.getResource("/icons/logo.png")));
-    public static final ImageIcon EXIT_BUTTON_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
-            .createImage(Gui.class.getResource("/icons/exit.png")));
-    public static final ImageIcon WHEN_MOUSE_ON_EXIT_BUTTON_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
-            .createImage(Gui.class.getResource("/icons/exit2.png")));
     private static int counter;
     private int currentNumber;
 
@@ -92,7 +90,7 @@ public class Gui extends JFrame {
     }
 
     private void startGame() {
-        Main.createGui();
+        Common.createGui();
     }
 
     private JMenu createFileMenu() {
