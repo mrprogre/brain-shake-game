@@ -5,22 +5,18 @@ import lombok.experimental.UtilityClass;
 import org.mrprogre.gui.Gui;
 
 import javax.swing.*;
-import java.awt.*;
 
 @UtilityClass
 public class Common {
 
-    public static void createGui() {
+    public static void createGui(String guiSize) {
         // Theme
         UIManager.put("Component.arc", 10);
-        UIManager.put("ProgressBar.arc", 6);
         UIManager.put("Button.arc", 8);
-        UIManager.put("TextField.background", Color.GRAY);
-        UIManager.put("TextField.foreground", Color.BLACK);
         FlatCobalt2IJTheme.setup();
 
         // Create frame
-        Gui gui = new Gui();
+        Gui gui = new Gui(guiSize);
 
         // Movable
         Runnable runnable = () -> {

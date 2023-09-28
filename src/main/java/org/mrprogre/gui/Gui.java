@@ -1,6 +1,7 @@
 package org.mrprogre.gui;
 
 import org.mrprogre.utils.Common;
+import org.mrprogre.utils.GuiSize;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,38 +15,41 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.mrprogre.utils.Icons.*;
 
 public class Gui extends JFrame {
-    private static int numbersCount;
+    private static String size;
+    private static int numbersCount = 60;
+    private static int frameHeight = 384;
     private static int counter;
     private int currentNumber;
     private final String find = " Find ";
     private final AtomicBoolean isHard = new AtomicBoolean(false);
 
-    public Gui() {
+    public Gui(String guiSize) {
+        size = guiSize;
         counter = 0;
         currentNumber = 1;
 
-        try {
-            String s = JOptionPane.showInputDialog("Enter the number of blocks (max 120)");
-            if (s.equals("0") || Integer.parseInt(s) > 120) {
-                numbersCount = 120;
-            } else {
-                numbersCount = Integer.parseInt(s);
-            }
-        } catch (Exception e) {
-            numbersCount = 120;
-        }
-
-        setName("Tune your brain in the morning friend. From 1 to " + numbersCount); // не видно
         setIconImage(LOGO_ICON.getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setUndecorated(true);
 
-        setBounds(600, 160, 800, 710);
+        switch (guiSize) {
+            case "small":
+                frameHeight = 188;
+                numbersCount = 24;
+                break;
+            case "large":
+                frameHeight = 710;
+                numbersCount = 120;
+                break;
+        }
+
+        setBounds(600, 160, 800, frameHeight);
         setResizable(false);
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createFileMenu());
+        menuBar.add(createSizeMenu());
         menuBar.add(Box.createHorizontalGlue());
 
         JButton exitBtn = new JButton(EXIT_BUTTON_ICON);
@@ -121,7 +125,7 @@ public class Gui extends JFrame {
     }
 
     private void startGame() {
-        Common.createGui();
+        Common.createGui("middle");
     }
 
     private JMenu createFileMenu() {
@@ -165,5 +169,48 @@ public class Gui extends JFrame {
             }
         });
     }
+
+    private JMenu createSizeMenu() {
+        JMenu viewMenu = new JMenu("Size");
+        String minSize = GuiSize.SMALL.getSize();
+        String midSize = GuiSize.MIDDLE.getSize();
+        String maxSize = GuiSize.LARGE.getSize();
+
+        JCheckBoxMenuItem small = new JCheckBoxMenuItem(minSize);
+        small.addActionListener(e -> {
+            dispose();
+            Common.createGui("small");
+        });
+        JCheckBoxMenuItem middle = new JCheckBoxMenuItem(midSize);
+        middle.addActionListener(e -> {
+            dispose();
+            Common.createGui("middle");
+        });
+        JCheckBoxMenuItem large = new JCheckBoxMenuItem(maxSize);
+        large.addActionListener(e -> {
+            dispose();
+            Common.createGui("large");
+        });
+
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(small);
+        bg.add(middle);
+        bg.add(large);
+
+        if (size.equals(minSize)) {
+            bg.setSelected(small.getModel(), true);
+        } else if (size.equals(midSize)) {
+            bg.setSelected(middle.getModel(), true);
+        } else if (size.equals(maxSize)) {
+            bg.setSelected(large.getModel(), true);
+        }
+
+        viewMenu.add(small);
+        viewMenu.add(middle);
+        viewMenu.add(large);
+
+        return viewMenu;
+    }
+
 
 }
