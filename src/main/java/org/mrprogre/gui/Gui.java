@@ -42,13 +42,13 @@ public class Gui extends JFrame {
 
         switch (guiSize) {
             case "baby":
-                find = "           ";
+                find = "";
                 labelFont = new Font(fontName, Font.BOLD, 32);
                 buttonFont = new Font(fontName, Font.BOLD, 28);
                 frameY = 400;
                 frameHeight = 270;
                 frameWidth = 600;
-                labelWidth = 474;
+                labelWidth = 510;
                 numbersCount = 12;
                 break;
             case "small":
@@ -101,6 +101,7 @@ public class Gui extends JFrame {
 
         // Hard on/off
         JCheckBox isHardCheckbox = new JCheckBox("Hard mode");
+        if (guiSize.equals("baby")) isHardCheckbox.setVisible(false);
         isHardCheckbox.setFocusable(false);
         isHardCheckbox.addItemListener(e -> isHard.set(!isHard.get()));
         getContentPane().add(isHardCheckbox);
@@ -141,17 +142,20 @@ public class Gui extends JFrame {
                     label.setText(find + currentNumber);
                     if (counter == numbersCount) {
                         label.setText("");
-                        dispose();
-                        String message = String.format("Completed in %.2f seconds",
-                                (double) (System.currentTimeMillis() - startTime) / 1000);
+                        if (!guiSize.equals("baby")) {
+                            dispose();
+                            String message = String.format("Completed in %.2f seconds",
+                                    (double) (System.currentTimeMillis() - startTime) / 1000);
 
-                        int result = JOptionPane.showConfirmDialog(this,
-                                "Start again?",
-                                message,
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE, GIF);
+                            int result = JOptionPane.showConfirmDialog(this,
+                                    "Start again?",
+                                    message,
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.INFORMATION_MESSAGE, GIF);
 
-                        if (result == JOptionPane.YES_OPTION) startGame();
+
+                            if (result == JOptionPane.YES_OPTION) startGame();
+                        }
                     }
                 }
             });
