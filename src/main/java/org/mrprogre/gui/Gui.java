@@ -88,10 +88,12 @@ public class Gui extends JFrame {
 
             jButton.addActionListener(x -> {
                 if (currentNumber == Integer.parseInt(jButton.getText())) {
-                    if (isHard.get())
+                    if (isHard.get()) {
                         jButton.setVisible(false);
-                    else
-                        jButton.setEnabled(false);
+                    } else {
+                        //jButton.setEnabled(false);
+                        jButton.setIcon(GIF);
+                    }
 
                     jButton.setText(" ");
                     counter++;
