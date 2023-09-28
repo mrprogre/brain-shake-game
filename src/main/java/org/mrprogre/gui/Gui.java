@@ -75,12 +75,11 @@ public class Gui extends JFrame {
                     currentNumber++;
 
                     if (counter == numbersCount) {
-                        long wastedTime = (System.currentTimeMillis() - startTime) / 1000;
-                        String message = String.format("Completed in %d seconds", wastedTime);
+                        String message = String.format("Completed in %.2f seconds. Start again?", (double) (System.currentTimeMillis() - startTime) / 1000);
 
                         int result = JOptionPane.showConfirmDialog(this,
-                                "Start again?",
                                 message,
+                                "Mission completed",
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.INFORMATION_MESSAGE);
 
