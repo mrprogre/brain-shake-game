@@ -10,8 +10,9 @@ public class MusicPlayer {
     private int pausedOnFrame = 0;
 
     public void play(String path) {
+        InputStream fis;
         try {
-            InputStream fis = MusicPlayer.class.getResourceAsStream(path);
+            fis = MusicPlayer.class.getResourceAsStream(path);
             assert fis != null;
             AdvancedPlayer player = new AdvancedPlayer(fis);
 
@@ -22,6 +23,7 @@ public class MusicPlayer {
                 }
             });
             player.play(pausedOnFrame, Integer.MAX_VALUE);
+            fis.close();
         } catch (Exception e) {
             Common.showAlert(e.getMessage());
         }
