@@ -16,7 +16,7 @@ import java.util.List;
 @UtilityClass
 public class Common {
     public static final String DIRECTORY_PATH = System.getProperty("user.home") +
-            File.separator + "Brain shake" + File.separator;
+            File.separator + "brain-shake" + File.separator;
     public static final String CONFIG_PATH = DIRECTORY_PATH + "config.txt";
 
     public static void createFiles() {
