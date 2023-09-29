@@ -18,6 +18,7 @@ import static org.mrprogre.utils.Icons.*;
 public class Gui extends JFrame {
     private static String size;
     private static int numbersCount;
+    private static int mistakesCount;
     private static int frameY;
     private static int frameHeight;
     private static int frameWidth;
@@ -31,6 +32,7 @@ public class Gui extends JFrame {
         size = guiSize;
         counter = 0;
         currentNumber = 1;
+        mistakesCount = 0;
 
         setIconImage(LOGO_ICON.getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -146,8 +148,9 @@ public class Gui extends JFrame {
                     if (counter == numbersCount) {
                         label.setText("");
                         dispose();
-                        String message = String.format("Completed in %.2f seconds",
-                                (double) (System.currentTimeMillis() - startTime) / 1000);
+                        String message = String.format("Completed in %.2f seconds and %d mistakes were made",
+                                (double) (System.currentTimeMillis() - startTime) / 1000,
+                                mistakesCount);
 
                         int result = JOptionPane.showConfirmDialog(this,
                                 "Start again?",
@@ -157,6 +160,8 @@ public class Gui extends JFrame {
 
                         if (result == JOptionPane.YES_OPTION) startGame();
                     }
+                } else {
+                    mistakesCount++;
                 }
             });
         }
