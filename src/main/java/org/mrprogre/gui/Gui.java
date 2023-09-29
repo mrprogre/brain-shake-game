@@ -166,21 +166,21 @@ public class Gui extends JFrame {
                 if (currentNumber == buttonText) {
                     if (isHard.get()) {
                         jButton.setVisible(false);
-                    } else {
-                        if (size.equals("baby")) {
-                            jButton.setIcon(animatedGifs[currentNumber - 1]);
-                            String soundPath;
+                    }
 
-                            if (isEnglish.get()) {
-                                soundPath = "/wav/eng/" + currentNumber + ".mp3";
-                            } else {
-                                soundPath = "/wav/rus/" + currentNumber + ".mp3";
-                            }
+                    if (size.equals("baby")) {
+                        jButton.setIcon(animatedGifs[currentNumber - 1]);
+                        String soundPath;
 
-                            new Thread(() -> new MusicPlayer().play(soundPath)).start();
+                        if (isEnglish.get()) {
+                            soundPath = "/wav/eng/" + currentNumber + ".mp3";
                         } else {
-                            jButton.setIcon(GIF);
+                            soundPath = "/wav/rus/" + currentNumber + ".mp3";
                         }
+
+                        new Thread(() -> new MusicPlayer().play(soundPath)).start();
+                    } else {
+                        jButton.setIcon(GIF);
                     }
 
                     jButton.setText("");
