@@ -24,7 +24,6 @@ public class Gui extends JFrame {
     private static String size;
     private static int numbersCount;
     private static int mistakesCount;
-    private static int frameY;
     private static int frameHeight;
     private static int frameWidth;
     private static int labelWidth;
@@ -39,6 +38,8 @@ public class Gui extends JFrame {
         size = configsFromFile.get(0);
         isHard = new AtomicBoolean(Boolean.parseBoolean(configsFromFile.get(1)));
         isEnglish = new AtomicBoolean(Boolean.parseBoolean(configsFromFile.get(2)));
+        int frameX = Integer.parseInt(configsFromFile.get(3));
+        int frameY = Integer.parseInt(configsFromFile.get(4));
         size = configsFromFile.get(0);
         counter = 0;
         currentNumber = 1;
@@ -60,28 +61,24 @@ public class Gui extends JFrame {
                 find = "     ";
                 labelFont = new Font(fontName, Font.BOLD, 32);
                 buttonFont = new Font(fontName, Font.BOLD, 28);
-                frameY = 400;
                 frameHeight = 270;
                 frameWidth = 600;
                 labelWidth = 510;
                 numbersCount = 12;
                 break;
             case "small":
-                frameY = 400;
                 frameWidth = 800;
                 labelWidth = 685;
                 frameHeight = 200;
                 numbersCount = 24;
                 break;
             case "middle":
-                frameY = 280;
                 frameWidth = 800;
                 labelWidth = 685;
                 frameHeight = 396;
                 numbersCount = 60;
                 break;
             case "large":
-                frameY = 190;
                 frameWidth = 800;
                 labelWidth = 685;
                 frameHeight = 722;
@@ -89,7 +86,7 @@ public class Gui extends JFrame {
                 break;
         }
 
-        setBounds(320, frameY, frameWidth, frameHeight);
+        setBounds(frameX, frameY, frameWidth, frameHeight);
         setResizable(false);
 
         JMenuBar menuBar = new JMenuBar();
@@ -100,7 +97,7 @@ public class Gui extends JFrame {
         JButton exitBtn = new JButton(EXIT_BUTTON_ICON);
         exitBtn.setFocusable(false);
         exitBtn.setBorderPainted(false);
-        exitBtn.addActionListener(x -> System.exit(0));
+        exitBtn.addActionListener(x -> exit());
         menuBar.add(exitBtn);
         animation(exitBtn, EXIT_BUTTON_ICON, WHEN_MOUSE_ON_EXIT_BUTTON_ICON);
 
@@ -218,7 +215,8 @@ public class Gui extends JFrame {
         Common.createGui();
     }
 
-    private static void exit() {
+    private void exit() {
+        saveState(size);
         System.exit(0);
     }
 
@@ -328,6 +326,8 @@ public class Gui extends JFrame {
         Common.writeConfig("size", sizeValue);
         Common.writeConfig("is-hard", String.valueOf(isHard.get()));
         Common.writeConfig("is-eng", String.valueOf(isEnglish.get()));
+        Common.writeConfig("x", String.valueOf(getX()));
+        Common.writeConfig("y", String.valueOf(getY()));
     }
 
 }

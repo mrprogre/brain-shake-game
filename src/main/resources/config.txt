@@ -1,3 +1,5 @@
 size=middle
 is-hard=false
 is-eng=false
+x=320
+y=400

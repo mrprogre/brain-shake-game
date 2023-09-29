@@ -58,6 +58,10 @@ public class Common {
                     configs.add(s.replace("is-hard=", ""));
                 if (s.startsWith("is-eng="))
                     configs.add(s.replace("is-eng=", ""));
+                if (s.startsWith("x="))
+                    configs.add(s.replace("x=", ""));
+                if (s.startsWith("y="))
+                    configs.add(s.replace("y=", ""));
             }
         } catch (IOException e) {
             showAlert(e.getMessage());
@@ -101,6 +105,18 @@ public class Common {
                 }
                 case "is-eng": {
                     String text = "is-eng=" + value + "\n";
+                    writer.write(text);
+                    writer.flush();
+                    break;
+                }
+                case "x": {
+                    String text = "x=" + value + "\n";
+                    writer.write(text);
+                    writer.flush();
+                    break;
+                }
+                case "y": {
+                    String text = "y=" + value + "\n";
                     writer.write(text);
                     writer.flush();
                     break;
