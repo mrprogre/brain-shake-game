@@ -27,6 +27,7 @@ public class Gui extends JFrame {
     private int currentNumber;
     private String find = "      Find ";
     private final AtomicBoolean isHard = new AtomicBoolean(false);
+    private final AtomicBoolean isEnglish = new AtomicBoolean(false);
 
     public Gui(String guiSize) {
         size = guiSize;
@@ -97,9 +98,9 @@ public class Gui extends JFrame {
 
         // TOP
         JLabel label = new JLabel(find + currentNumber);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setFont(labelFont);
         label.setForeground(Color.RED);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(labelWidth, 30));
         getContentPane().add(label);
 
@@ -128,13 +129,27 @@ public class Gui extends JFrame {
             getContentPane().add(jButton);
 
             jButton.addActionListener(x -> {
-                if (currentNumber == Integer.parseInt(jButton.getText())) {
+                int buttonText = -1;
+                try {
+                    if (jButton.getText() != null) buttonText = Integer.parseInt(jButton.getText());
+                } catch (Exception ignored) {
+                }
+
+                if (currentNumber == buttonText) {
                     if (isHard.get()) {
                         jButton.setVisible(false);
                     } else {
                         if (guiSize.equals("baby")) {
                             jButton.setIcon(animatedGifs[currentNumber - 1]);
-                            new Thread(() -> new MusicPlayer().play("/wav/" + (currentNumber - 1) + ".mp3")).start();
+                            String soundPath;
+
+                            if (isEnglish.get()) {
+                                soundPath = "/wav/eng/" + currentNumber + ".mp3";
+                            } else {
+                                soundPath = "/wav/rus/" + currentNumber + ".mp3";
+                            }
+
+                            new Thread(() -> new MusicPlayer().play(soundPath)).start();
                         } else {
                             jButton.setIcon(GIF);
                         }
