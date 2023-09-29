@@ -47,7 +47,7 @@ public class Gui extends JFrame {
 
         switch (guiSize) {
             case "baby":
-                find = "";
+                find = "     ";
                 labelFont = new Font(fontName, Font.BOLD, 32);
                 buttonFont = new Font(fontName, Font.BOLD, 28);
                 frameY = 400;
@@ -110,6 +110,13 @@ public class Gui extends JFrame {
         isHardCheckbox.setFocusable(false);
         isHardCheckbox.addItemListener(e -> isHard.set(!isHard.get()));
         getContentPane().add(isHardCheckbox);
+
+        // English numbers voice on/off
+        JCheckBox isEngNumbers = new JCheckBox("Eng");
+        isEngNumbers.setVisible(guiSize.equals("baby"));
+        isEngNumbers.setFocusable(false);
+        isEngNumbers.addItemListener(e -> isEnglish.set(!isEnglish.get()));
+        getContentPane().add(isEngNumbers);
 
         ArrayList<Integer> listOfNumbers = new ArrayList<>();
         for (int i = 1; i <= numbersCount; i++) {
