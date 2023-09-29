@@ -27,4 +27,22 @@ public class Common {
         SwingUtilities.invokeLater(runnable);
     }
 
+    public static void showAlert(String message) {
+        JOptionPane.showMessageDialog(null, message, "Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static void showAlertHtml(String message) {
+        JLabel label = new JLabel("<html>" + message + "</<html>");
+        JOptionPane.showMessageDialog(null, label, "Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static void showInfo(String message) {
+        JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void showInfoHtml(String message) {
+        JLabel label = new JLabel("<html>" + message + "</<html>");
+        JOptionPane.showMessageDialog(null, label, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }

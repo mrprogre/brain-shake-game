@@ -22,7 +22,8 @@ public class MusicPlayer {
                 }
             });
             player.play(pausedOnFrame, Integer.MAX_VALUE);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Common.showAlert(e.getMessage());
         }
     }
 
