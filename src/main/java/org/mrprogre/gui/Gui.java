@@ -9,8 +9,13 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.mrprogre.utils.Icons.*;
@@ -26,11 +31,15 @@ public class Gui extends JFrame {
     private static int counter;
     private int currentNumber;
     private String find = "      Find ";
-    private final AtomicBoolean isHard = new AtomicBoolean(false);
-    private final AtomicBoolean isEnglish = new AtomicBoolean(false);
+    private final AtomicBoolean isHard;
+    private final AtomicBoolean isEnglish;
 
     public Gui(String guiSize) {
-        size = guiSize;
+        List<String> configsFromFile = Common.getConfigsFromFile();
+        size = configsFromFile.get(0);
+        isHard = new AtomicBoolean(Boolean.parseBoolean(configsFromFile.get(1)));
+        isEnglish = new AtomicBoolean(Boolean.parseBoolean(configsFromFile.get(2)));
+        size = configsFromFile.get(0);
         counter = 0;
         currentNumber = 1;
         mistakesCount = 0;
@@ -106,17 +115,28 @@ public class Gui extends JFrame {
 
         // Hard on/off
         JCheckBox isHardCheckbox = new JCheckBox("Hard mode");
+        isHardCheckbox.setSelected(isHard.get());
         if (guiSize.equals("baby")) isHardCheckbox.setVisible(false);
         isHardCheckbox.setFocusable(false);
-        isHardCheckbox.addItemListener(e -> isHard.set(!isHard.get()));
+        isHardCheckbox.addItemListener(e -> {
+                    isHard.set(!isHard.get());
+                    saveState(size);
+                }
+        );
         getContentPane().add(isHardCheckbox);
 
         // English numbers voice on/off
-        JCheckBox isEngNumbers = new JCheckBox("Eng");
-        isEngNumbers.setVisible(guiSize.equals("baby"));
-        isEngNumbers.setFocusable(false);
-        isEngNumbers.addItemListener(e -> isEnglish.set(!isEnglish.get()));
-        getContentPane().add(isEngNumbers);
+        JCheckBox isEng = new JCheckBox("Eng");
+        isEng.setSelected(isEnglish.get());
+        isEng.setVisible(guiSize.equals("baby"));
+        isEng.setFocusable(false);
+        isEng.addItemListener(e -> {
+                    isEnglish.set(!isEnglish.get());
+                    saveState(size);
+                }
+        );
+
+        getContentPane().add(isEng);
 
         ArrayList<Integer> listOfNumbers = new ArrayList<>();
         for (int i = 1; i <= numbersCount; i++) {
@@ -189,11 +209,12 @@ public class Gui extends JFrame {
         }
 
         setVisible(true);
+
     }
 
     private void startGame() {
         dispose();
-        Common.createGui(size);
+        Common.createGui();
     }
 
     private static void exit() {
@@ -246,26 +267,30 @@ public class Gui extends JFrame {
 
         JCheckBoxMenuItem baby = new JCheckBoxMenuItem(babySize);
         baby.addActionListener(e -> {
+            saveState("baby");
             dispose();
-            Common.createGui("baby");
+            Common.createGui();
         });
 
         JCheckBoxMenuItem small = new JCheckBoxMenuItem(minSize);
         small.addActionListener(e -> {
+            saveState("small");
             dispose();
-            Common.createGui("small");
+            Common.createGui();
         });
 
         JCheckBoxMenuItem middle = new JCheckBoxMenuItem(midSize);
         middle.addActionListener(e -> {
+            saveState("middle");
             dispose();
-            Common.createGui("middle");
+            Common.createGui();
         });
 
         JCheckBoxMenuItem large = new JCheckBoxMenuItem(maxSize);
         large.addActionListener(e -> {
+            saveState("large");
             dispose();
-            Common.createGui("large");
+            Common.createGui();
         });
 
         ButtonGroup bg = new ButtonGroup();
@@ -292,5 +317,16 @@ public class Gui extends JFrame {
         return viewMenu;
     }
 
+    private void saveState(String sizeValue) {
+        try {
+            Files.newBufferedWriter(Paths.get(Common.CONFIG_PATH), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            Common.showAlert(e.getMessage());
+        }
+
+        Common.writeConfig("size", sizeValue);
+        Common.writeConfig("is-hard", String.valueOf(isHard.get()));
+        Common.writeConfig("is-eng", String.valueOf(isEnglish.get()));
+    }
 
 }

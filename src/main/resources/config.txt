@@ -1,0 +1,3 @@
+size=middle
+is-hard=false
+is-eng=false

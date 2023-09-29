@@ -25,8 +25,7 @@ public class FrameDragListener extends MouseAdapter {
         Point currCoords = e.getLocationOnScreen();
         try {
             frame.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
-        } catch (Exception exception) {
-            System.out.println("Need to restart the application!");
+        } catch (Exception ignored) {
         }
     }
 }
