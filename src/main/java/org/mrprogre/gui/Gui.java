@@ -34,7 +34,7 @@ public class Gui extends JFrame {
     private final AtomicBoolean isHard;
     private final AtomicBoolean isEnglish;
 
-    public Gui(String guiSize) {
+    public Gui() {
         List<String> configsFromFile = Common.getConfigsFromFile();
         size = configsFromFile.get(0);
         isHard = new AtomicBoolean(Boolean.parseBoolean(configsFromFile.get(1)));
@@ -54,8 +54,9 @@ public class Gui extends JFrame {
         Font labelFont = new Font(fontName, Font.BOLD, 22);
         Font buttonFont = new Font(fontName, Font.PLAIN, 15);
 
-        switch (guiSize) {
+        switch (size) {
             case "baby":
+                isHard.set(false);
                 find = "     ";
                 labelFont = new Font(fontName, Font.BOLD, 32);
                 buttonFont = new Font(fontName, Font.BOLD, 28);
@@ -116,7 +117,7 @@ public class Gui extends JFrame {
         // Hard on/off
         JCheckBox isHardCheckbox = new JCheckBox("Hard mode");
         isHardCheckbox.setSelected(isHard.get());
-        if (guiSize.equals("baby")) isHardCheckbox.setVisible(false);
+        if (size.equals("baby")) isHardCheckbox.setVisible(false);
         isHardCheckbox.setFocusable(false);
         isHardCheckbox.addItemListener(e -> {
                     isHard.set(!isHard.get());
@@ -128,7 +129,7 @@ public class Gui extends JFrame {
         // English numbers voice on/off
         JCheckBox isEng = new JCheckBox("Eng");
         isEng.setSelected(isEnglish.get());
-        isEng.setVisible(guiSize.equals("baby"));
+        isEng.setVisible(size.equals("baby"));
         isEng.setFocusable(false);
         isEng.addItemListener(e -> {
                     isEnglish.set(!isEnglish.get());
@@ -149,7 +150,7 @@ public class Gui extends JFrame {
             JButton jButton = new JButton(String.valueOf(n));
             jButton.setFont(buttonFont);
             jButton.setFocusPainted(false);
-            if (guiSize.equals("baby")) jButton.setPreferredSize(new Dimension(90, 90));
+            if (size.equals("baby")) jButton.setPreferredSize(new Dimension(90, 90));
             else jButton.setPreferredSize(new Dimension(60, 60));
 
             jButton.setName(String.valueOf(listOfNumbers.get(n - 1)));
@@ -166,7 +167,7 @@ public class Gui extends JFrame {
                     if (isHard.get()) {
                         jButton.setVisible(false);
                     } else {
-                        if (guiSize.equals("baby")) {
+                        if (size.equals("baby")) {
                             jButton.setIcon(animatedGifs[currentNumber - 1]);
                             String soundPath;
 

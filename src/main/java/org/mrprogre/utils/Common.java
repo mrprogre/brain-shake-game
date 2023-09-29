@@ -30,14 +30,13 @@ public class Common {
     }
 
     public static void createGui() {
-        List<String> configsFromFile = getConfigsFromFile();
         // Theme
         UIManager.put("Component.arc", 10);
         UIManager.put("Button.arc", 8);
         FlatCobalt2IJTheme.setup();
 
         // Create frame
-        Gui gui = new Gui(configsFromFile.get(0));
+        Gui gui = new Gui();
 
         // Movable
         Runnable runnable = () -> {
