@@ -2,6 +2,7 @@ package org.mrprogre.gui;
 
 import org.mrprogre.utils.Common;
 import org.mrprogre.utils.GuiSize;
+import org.mrprogre.utils.MusicPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +35,7 @@ public class Gui extends JFrame {
         setIconImage(LOGO_ICON.getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
+        getContentPane().setBackground(new Color(0, 0, 0));
         this.setUndecorated(true);
 
         String fontName = "Segoe UI";
@@ -130,6 +132,7 @@ public class Gui extends JFrame {
                     } else {
                         if (guiSize.equals("baby")) {
                             jButton.setIcon(animatedGifs[currentNumber - 1]);
+                            new Thread(() -> new MusicPlayer().play("/wav/" + (currentNumber - 1) + ".mp3")).start();
                         } else {
                             jButton.setIcon(GIF);
                         }
@@ -142,20 +145,17 @@ public class Gui extends JFrame {
                     label.setText(find + currentNumber);
                     if (counter == numbersCount) {
                         label.setText("");
-                        if (!guiSize.equals("baby")) {
-                            dispose();
-                            String message = String.format("Completed in %.2f seconds",
-                                    (double) (System.currentTimeMillis() - startTime) / 1000);
+                        dispose();
+                        String message = String.format("Completed in %.2f seconds",
+                                (double) (System.currentTimeMillis() - startTime) / 1000);
 
-                            int result = JOptionPane.showConfirmDialog(this,
-                                    "Start again?",
-                                    message,
-                                    JOptionPane.YES_NO_OPTION,
-                                    JOptionPane.INFORMATION_MESSAGE, GIF);
+                        int result = JOptionPane.showConfirmDialog(this,
+                                "Start again?",
+                                message,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE, GIF);
 
-
-                            if (result == JOptionPane.YES_OPTION) startGame();
-                        }
+                        if (result == JOptionPane.YES_OPTION) startGame();
                     }
                 }
             });
