@@ -5,7 +5,10 @@ import lombok.experimental.UtilityClass;
 import org.mrprogre.gui.Gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -124,6 +127,26 @@ public class Common {
             }
         } catch (IOException e) {
             showAlert(e.getMessage());
+        }
+    }
+
+    public static void openPage(String url) {
+        if (url != null && !url.equals("no data found")) {
+            url = url.replaceAll(("https://|http://"), "");
+
+            URI uri = null;
+            try {
+                uri = new URI("https://" + url);
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+            Desktop desktop = Desktop.getDesktop();
+            assert uri != null;
+            try {
+                desktop.browse(uri);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

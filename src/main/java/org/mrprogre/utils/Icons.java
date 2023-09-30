@@ -4,12 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Icons {
+    public static final ImageIcon QR_SBP = new ImageIcon(Toolkit.getDefaultToolkit()
+            .createImage(Icons.class.getResource("/qr.png")));
     public static final ImageIcon LOGO_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
             .createImage(Icons.class.getResource("/icons/logo.png")));
     public static final ImageIcon EXIT_BUTTON_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
             .createImage(Icons.class.getResource("/icons/exit.png")));
     public static final ImageIcon WHEN_MOUSE_ON_EXIT_BUTTON_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
             .createImage(Icons.class.getResource("/icons/exit2.png")));
+    public static final ImageIcon MESSAGE_ICON = new ImageIcon(Toolkit.getDefaultToolkit()
+            .createImage(Icons.class.getResource("/icons/message.png")));
     public static final ImageIcon GIF = new ImageIcon(Toolkit.getDefaultToolkit()
             .createImage(Icons.class.getResource("/gif.gif")));
     public static final ImageIcon GIF_1 = new ImageIcon(Toolkit.getDefaultToolkit()

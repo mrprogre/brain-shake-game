@@ -1,7 +1,9 @@
 package org.mrprogre.gui;
 
+import org.mrprogre.Main;
 import org.mrprogre.utils.Common;
 import org.mrprogre.utils.GuiSize;
+import org.mrprogre.utils.Icons;
 import org.mrprogre.utils.MusicPlayer;
 
 import javax.swing.*;
@@ -40,7 +42,6 @@ public class Gui extends JFrame {
         isEnglish = new AtomicBoolean(Boolean.parseBoolean(configsFromFile.get(2)));
         int frameX = Integer.parseInt(configsFromFile.get(3));
         int frameY = Integer.parseInt(configsFromFile.get(4));
-        size = configsFromFile.get(0);
         counter = 0;
         currentNumber = 1;
         mistakesCount = 0;
@@ -92,6 +93,7 @@ public class Gui extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createFileMenu());
         menuBar.add(createSizeMenu());
+        menuBar.add(createHelp());
         menuBar.add(Box.createHorizontalGlue());
 
         JButton exitBtn = new JButton(EXIT_BUTTON_ICON);
@@ -314,6 +316,52 @@ public class Gui extends JFrame {
         viewMenu.add(large);
 
         return viewMenu;
+    }
+
+    private JMenu createHelp() {
+        JMenu helpMenu = new JMenu("Help");
+
+        JMenuItem info = new JMenuItem("Info", Icons.LOGO_ICON);
+        KeyStroke ctrlI = KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+        info.setAccelerator(ctrlI);
+
+        info.addActionListener(e -> {
+            String text = "<html>" +
+                    "<b><font color=\"#C4A431\">Avandy News Analysis</font></b><br/>" +
+                    "Version: <b><font color=\"#31b547\">" + Main.APP_VERSION + "</font></b>" +
+                    " dated <b><font color=\"#31b547\">" + Main.APP_VERSION_DATE + "</b></font><br/>" +
+                    "Developer, owner: Chernyavskiy Dmitry Andreevich <br/>" +
+                    "<font color=\"#FF7373\">avandy-news.ru</font><br/" +
+                    "<font color=\"#fa8e47\">rps_project@mail.ru</font><br/> " +
+                    "<font color=\"#59C9FF\">github.com/mrprogre</font><br/><br/>" +
+
+                    "Permission is hereby granted, free of charge, to any person obtaining a copy of this software<br/>" +
+                    "and associated documentation files (the \"Software\"), to deal in the Software without restriction,<br/>" +
+                    "including without limitation the rights to use, copy, modify, merge, publish, distribute,<br/>" +
+                    "sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is<br/>" +
+                    "furnished to do so, subject to the following conditions: The above copyright notice and this<br/>" +
+                    "permission notice shall be included in all copies or substantial portions of the Software.<br/<br/" +
+
+                    "The software is provided \"as is\", without warranty of any kind, express or implied, including<br/>" +
+                    "but not limited to the warranties of merchantability, fitness for a particular purpose and<br/>" +
+                    "noninfringement. In no event shall the authors or copyright holders be liable for any claim,<br/>" +
+                    "damages or other liability, whether in an action of contract, tort or otherwise,<br/>" +
+                    "arising from, out of or in connection with the software or the use <br/>" +
+                    "or other dealings in the software." +
+                    "</<html>";
+
+            JOptionPane.showMessageDialog(this, text, "Поддержать проект",
+                    JOptionPane.INFORMATION_MESSAGE, Icons.QR_SBP);
+        });
+
+        JMenuItem support = new JMenuItem("Support", Icons.MESSAGE_ICON);
+        KeyStroke ctrlF2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+        support.setAccelerator(ctrlF2);
+        support.addActionListener(e -> Common.openPage("https://avandy-news.ru/"));
+
+        helpMenu.add(info);
+        helpMenu.add(support);
+        return helpMenu;
     }
 
     private void saveState(String sizeValue) {
