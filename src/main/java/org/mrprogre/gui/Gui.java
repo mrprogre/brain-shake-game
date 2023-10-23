@@ -327,7 +327,7 @@ public class Gui extends JFrame {
 
         info.addActionListener(e -> {
             String text = "<html>" +
-                    "<b><font color=\"#C4A431\">Avandy News Analysis</font></b><br/>" +
+                    "<b><font color=\"#C4A431\">Brain shake game</font></b><br/>" +
                     "Version: <b><font color=\"#31b547\">" + Main.APP_VERSION + "</font></b>" +
                     " dated <b><font color=\"#31b547\">" + Main.APP_VERSION_DATE + "</b></font><br/>" +
                     "Developer, owner: Chernyavskiy Dmitry Andreevich <br/>" +
