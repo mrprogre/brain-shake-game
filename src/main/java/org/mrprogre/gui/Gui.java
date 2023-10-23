@@ -350,7 +350,7 @@ public class Gui extends JFrame {
                     "or other dealings in the software." +
                     "</<html>";
 
-            JOptionPane.showMessageDialog(this, text, "Поддержать проект",
+            JOptionPane.showMessageDialog(this, text, "Donate",
                     JOptionPane.INFORMATION_MESSAGE, Icons.QR_SBP);
         });
 
